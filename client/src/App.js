@@ -4,6 +4,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Auth/Login';
 import Homepage from './components/Homepage';
 import Chat from './components/Chat';
+import Members from './components/Members';
 import { useAuth } from './context/AuthContext';
 import "./styles/App.css";
 
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<ProtectedRoute component={Home} />} />
             <Route path="/homepage" element={<Homepage />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/members" element={<Members />} />
         </Routes>
     );
 }

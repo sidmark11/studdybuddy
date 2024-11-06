@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const Homepage = () => {
     const { user } = useAuth();
     const userRef = collection(db, "users");
+    const groupRef = collection(db, "groups");
     const [room, setRoom] = useState("");
     const [groupNames, setGroupNames] = useState([]);
     const navigate = useNavigate();
@@ -17,8 +18,8 @@ const Homepage = () => {
         setRoom(e.target.value);
         e.preventDefault();
         if (room === "") return;
-        const q = query(userRef, where("userID", "==", auth.currentUser.displayName), limit(1));
-        const queryDoc = await getDocs(q);
+        let q = query(userRef, where("userID", "==", auth.currentUser.displayName), limit(1));
+        let queryDoc = await getDocs(q);
 
         if (!queryDoc.empty) {
             const userDoc = queryDoc.docs[0];
@@ -30,6 +31,22 @@ const Homepage = () => {
             await addDoc(userRef, {
                 userID: auth.currentUser.displayName,
                 groupNames: [room]
+            })
+        }
+
+        q = query(groupRef, where("groupID", "==", room), limit(1));
+        queryDoc = await getDocs(q);
+
+        if (!queryDoc.empty) {
+            const groupDoc = queryDoc.docs[0];
+            const reference = groupDoc.ref;
+            await updateDoc(reference, {
+                members: arrayUnion(auth.currentUser.displayName), // Adds newGroupName to the array if it doesn't already exist
+            });
+        } else {
+            await addDoc(groupRef, {
+                groupID: room,
+                members: [auth.currentUser.displayName]
             })
         }
 
