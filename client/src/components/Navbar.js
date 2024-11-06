@@ -28,6 +28,11 @@ const Navbar = ({ room }) => {
                 Members
               </Link>
             </li>
+            <li className='nav-item'>
+              <Link to={`/homepage?room=${room}`} className='nav-links'>
+                Home
+              </Link>
+            </li>
           </ul>
           <div>
           </div>        

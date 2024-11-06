@@ -4,6 +4,7 @@ import { auth, googleProvider } from '../../firebaseConfig';
 import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import "../../styles/Login.css"
 
 const Login = () => {
     const { setUser } = useAuth();  // Assuming setUser is exposed by AuthContext
@@ -34,9 +35,14 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <button onClick={handleGoogleLogin}>Sign in with USC Google Account</button>
+        <div className="login-container">
+            <h2 className="login-title">Welcome to StudyBuddy</h2>
+            <p className="login-title">
+                Please sign in with your USC Google Account to continue.
+            </p>
+            <button onClick={handleGoogleLogin} className="login-button">
+                Sign in with USC Google Account
+            </button>
         </div>
     );
 };
