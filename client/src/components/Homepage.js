@@ -58,6 +58,12 @@ const Homepage = () => {
         setRoom(event.target.value); // Update the input value when user types
     };
 
+    // New function to handle navigation to the calendar page
+    const goToCalendar = () => {
+        navigate('/calendar');
+    };
+
+
     return (
         <div>
             <h2>Welcome to StudyBuddy, {auth.currentUser.displayName}!</h2>
@@ -82,36 +88,38 @@ const Homepage = () => {
                     <div>
                         <label htmlFor="groupSelect">Enter a new/different group:</label>
                         <form>
-                            <input 
+                            <input
                                 type="text"
-                                className="new-message-input" 
+                                className="new-message-input"
                                 onChange={handleRoomChange}
-                                placeholder="Type in a message"
+                                placeholder="Type in a group name"
                             />
                             <button onClick={handleSubmit}>Join Group</button>
                         </form>
                     </div>
                 </div>
-                
             ) : (
                 <div>
                     <p>You are not part of any study group yet.</p>
                     <p>Enter a preexisting group to join or one you want to create!</p>
                     <form>
-                        <input 
+                        <input
                             type="text"
-                            className="new-message-input" 
+                            className="new-message-input"
                             onChange={handleRoomChange}
-                            placeholder="Type in a message"
+                            placeholder="Type in a group name"
                         />
                         <button onClick={handleSubmit}>Join Group</button>
                     </form>
-                    
                 </div>
-                
             )}
+            {/* New Calendar Button */}
+            <div style={{ marginTop: '20px' }}>
+                <button onClick={goToCalendar}>Calendar</button>
+            </div>
         </div>
     );
 };
+
 
 export default Homepage;
