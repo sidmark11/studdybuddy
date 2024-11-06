@@ -1,0 +1,87 @@
+.homepage-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-top: 60px; 
+  background-color: #f2f2f2;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage-welcome {
+  font-size: 24px;
+  color: #075e54;
+  margin-bottom: 20px;
+}
+
+.homepage-instruction {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.homepage-groups,
+.homepage-no-groups {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage-existing-group,
+.homepage-new-group {
+  margin-bottom: 20px;
+  background-color: #e5ddd5;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.group-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #075e54;
+}
+
+.group-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.new-group-form {
+  display: flex;
+  align-items: center;
+}
+
+.new-group-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 20px;
+  outline: none;
+  margin-right: 10px;
+}
+
+.join-button {
+  padding: 10px 20px;
+  background-color: #4a76a8;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.join-button:hover {
+  background-color: #3b5d79;
+}
+
+.homepage-no-groups p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  text-align: center;
+}
