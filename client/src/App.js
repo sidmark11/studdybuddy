@@ -5,6 +5,7 @@ import Login from './components/Auth/Login';
 import Homepage from './components/Homepage';
 import Chat from './components/Chat';
 import { useAuth } from './context/AuthContext';
+import "./styles/App.css";
 
 function App() {
     return (
