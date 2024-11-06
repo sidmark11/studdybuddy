@@ -84,7 +84,7 @@ const Homepage = () => {
                         <form>
                             <input 
                                 type="text"
-                                className="new-message-input" 
+                                className="new-room-input" 
                                 onChange={handleRoomChange}
                                 placeholder="Type in a message"
                             />
