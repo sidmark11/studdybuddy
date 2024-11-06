@@ -6,19 +6,22 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const { setUser } = useAuth();  // assuming setUser is exposed by AuthContext
+    const { setUser } = useAuth();  // Assuming setUser is exposed by AuthContext
     const navigate = useNavigate();
 
     const handleGoogleLogin = async () => {
         try {
+            // Attempt Google login
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
 
-            // Check if the user's email is from USC
+            // Check if the user's email ends with '@usc.edu'
             if (user.email.endsWith('@usc.edu')) {
                 console.log("Login successful:", user);
                 setUser(user);  // Update the context state with the logged-in user
-                navigate('/');  // Redirect to the home page or any protected route
+                
+                // Redirect to the homepage after successful login
+                navigate('/homepage');  // Navigate to the homepage
             } else {
                 // Sign the user out if they don't have a USC email
                 await auth.signOut();

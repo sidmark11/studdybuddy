@@ -2,6 +2,8 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Auth/Login';
+import Homepage from './components/Homepage';
+import Chat from './components/Chat';
 import { useAuth } from './context/AuthContext';
 
 function App() {
@@ -9,6 +11,8 @@ function App() {
         <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<ProtectedRoute component={Home} />} />
+            <Route path="/homepage" element={<Homepage />} />
+            <Route path="/chat" element={<Chat />} />
         </Routes>
     );
 }
