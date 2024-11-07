@@ -3,58 +3,89 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { auth, db } from '../firebaseConfig'; // Make sure db is your Firestore instance
+import { useGroup } from '../context/GroupContext'; // Import GroupContext
+
 import { limit, where, addDoc, collection, updateDoc, arrayUnion, query, getDocs} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import Navbar from "./Navbar";
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import "../styles/Homepage.css"
 
 const Homepage = () => {
     const { user } = useAuth();
     const userRef = collection(db, "users");
     const groupRef = collection(db, "groups");
+    const { updateGroup } = useGroup(); // This should now be resolved correctly
     const [room, setRoom] = useState("");
     const [groupNames, setGroupNames] = useState([]);
     const navigate = useNavigate();
 
+    const initializeGroupCalendar = async (groupID) => {
+        const groupCalendarRef = doc(db, 'calendars', groupID);
+        const calendarSnap = await getDoc(groupCalendarRef);
+
+        if (!calendarSnap.exists()) {
+            await setDoc(groupCalendarRef, {
+                isGroupOwned: true,
+                ownerID: groupID,
+                events: []
+            });
+        }
+    };
+
+
+
     const handleSubmit = async (e) => {
-        setRoom(e.target.value);
         e.preventDefault();
         if (room === "") return;
-        let q = query(userRef, where("userID", "==", auth.currentUser.displayName), limit(1));
-        let queryDoc = await getDocs(q);
 
-        if (!queryDoc.empty) {
-            const userDoc = queryDoc.docs[0];
-            const reference = userDoc.ref;
-            await updateDoc(reference, {
-                groupNames: arrayUnion(room), // Adds newGroupName to the array if it doesn't already exist
-            });
-        } else {
-            await addDoc(userRef, {
-                userID: auth.currentUser.displayName,
-                groupNames: [room]
-            })
+        // Update the group context to the selected room
+        updateGroup(room);
+
+        try {
+            // Check if the user document exists
+            let q = query(userRef, where("userID", "==", auth.currentUser.displayName), limit(1));
+            let queryDoc = await getDocs(q);
+
+            if (!queryDoc.empty) {
+                const userDoc = queryDoc.docs[0];
+                const reference = userDoc.ref;
+                await updateDoc(reference, {
+                    groupNames: arrayUnion(room), // Adds new group name if it doesn't already exist
+                });
+            } else {
+                await addDoc(userRef, {
+                    userID: auth.currentUser.displayName,
+                    groupNames: [room]
+                });
+            }
+
+            // Check if the group document exists
+            q = query(groupRef, where("groupID", "==", room), limit(1));
+            queryDoc = await getDocs(q);
+
+            if (!queryDoc.empty) {
+                const groupDoc = queryDoc.docs[0];
+                const reference = groupDoc.ref;
+                await updateDoc(reference, {
+                    members: arrayUnion(auth.currentUser.displayName), // Adds user to group if not already a member
+                });
+            } else {
+                // If the group doesn't exist, create it and initialize its calendar
+                await addDoc(groupRef, {
+                    groupID: room,
+                    members: [auth.currentUser.displayName]
+                });
+                await initializeGroupCalendar(room);  // Initialize group calendar for a new group
+            }
+
+            // Navigate to the chat page with the selected room in the URL
+            navigate(`/chat?room=${room}`);
+
+        } catch (error) {
+            console.error("Error handling group submission:", error);
         }
-
-        q = query(groupRef, where("groupID", "==", room), limit(1));
-        queryDoc = await getDocs(q);
-
-        if (!queryDoc.empty) {
-            const groupDoc = queryDoc.docs[0];
-            const reference = groupDoc.ref;
-            await updateDoc(reference, {
-                members: arrayUnion(auth.currentUser.displayName), // Adds newGroupName to the array if it doesn't already exist
-            });
-        } else {
-            await addDoc(groupRef, {
-                groupID: room,
-                members: [auth.currentUser.displayName]
-            })
-        }
-
-        navigate(`/chat?room=${room}`);
-
-    }
+    };
 
     useEffect(() => {
         const fetchGroupNames = async () => {

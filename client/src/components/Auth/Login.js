@@ -5,10 +5,28 @@ import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/Login.css"
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
 
 const Login = () => {
-    const { setUser } = useAuth();  // Assuming setUser is exposed by AuthContext
+    const { setUser } = useAuth();
     const navigate = useNavigate();
+
+    // Function to initialize the user's calendar in Firestore
+    const initializeUserCalendar = async (user) => {
+        const userCalendarRef = doc(db, 'calendars', user.uid);  // Use the user's uid as the document ID
+
+        // Check if the calendar already exists
+        const calendarSnap = await getDoc(userCalendarRef);
+        if (!calendarSnap.exists()) {
+            // Create a new calendar document for the user
+            await setDoc(userCalendarRef, {
+                isGroupOwned: false,
+                ownerID: user.displayName || user.uid,  // Use displayName if available, otherwise uid
+                events: []  // Initialize an empty events array
+            });
+        }
+    };
 
     const handleGoogleLogin = async () => {
         try {
@@ -18,11 +36,13 @@ const Login = () => {
 
             // Check if the user's email ends with '@usc.edu'
             if (user.email.endsWith('@usc.edu')) {
-                console.log("Login successful:", user);
                 setUser(user);  // Update the context state with the logged-in user
-                
+
+                // Initialize the user's calendar in Firestore
+                await initializeUserCalendar(user);
+
                 // Redirect to the homepage after successful login
-                navigate('/homepage');  // Navigate to the homepage
+                navigate('/homepage');
             } else {
                 // Sign the user out if they don't have a USC email
                 await auth.signOut();

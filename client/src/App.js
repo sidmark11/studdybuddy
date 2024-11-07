@@ -7,6 +7,9 @@ import Chat from './components/Chat';
 import Members from './components/Members';
 import { useAuth } from './context/AuthContext';
 import "./styles/App.css";
+import Calendar from "./components/Calendar";
+import Resources from './components/Resources';
+
 
 function App() {
     return (
@@ -16,6 +19,10 @@ function App() {
             <Route path="/homepage" element={<Homepage />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/members" element={<Members />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/resources" element={<Resources />} />
+
+
         </Routes>
     );
 }

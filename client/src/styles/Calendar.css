@@ -1,0 +1,133 @@
+/* client/src/styles/Calendar.css */
+
+/* client/src/styles/Calendar.css */
+
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 70px; /* Offset for the fixed navbar, adjust based on navbar height */
+    background-color: #f2f2f2;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #4a76a8;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.calendar-header h2 {
+    margin: 0 20px;
+    font-size: 24px;
+}
+
+.month-nav-button {
+    background-color: #ffffff;
+    border: none;
+    color: #4a76a8;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.month-nav-button:hover {
+    background-color: #e5ddd5;
+}
+
+.calendar-days {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 600px;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #e5ddd5;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.weekday {
+    text-align: center;
+    font-weight: bold;
+    color: #075e54;
+    padding: 5px 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-top: none;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+}
+
+.empty-day {
+    background-color: #ffffff;
+    height: 50px;
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 15px;
+    margin: 5px;
+    background-color: #dcf8c6;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.calendar-day:hover {
+    background-color: #c1e0b8;
+}
+
+.timetable {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e5ddd5;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+}
+
+.timetable h3 {
+    margin-bottom: 15px;
+    color: #075e54;
+}
+
+.timetable ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.timetable li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.event-time {
+    font-weight: bold;
+    color: #4a76a8;
+    margin-right: 10px;
+}
+
+.event-description {
+    color: #333333;
+}
